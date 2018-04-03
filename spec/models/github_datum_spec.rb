@@ -1,15 +1,15 @@
 require 'rails_helper'
 
-describe GithubDataController do
+describe GithubDatum do
     context "When testing the GithubDatumModel" do
-        let(:submission_record) {double('SubmissionRecord', id: 1, operation: 'Submit Hyperlink', content: 'https://github.com/expertiza/expertiza/pull/943', team_id: 1, assignment_id: 1)}
+        let(:submission) {double('SubmissionRecord', id: 1, operation: 'Submit Hyperlink', content: 'https://github.com/expertiza/expertiza/pull/943', team_id: 1, assignment_id: 1)}
         let(:team) {double('Team', id: 1, submission: submission, parent_id: 1)}
         let(:assignment) {double('Assignment', id: 1, team: team, submission_record: submission_record, intstructor_id: 1, course_id: 1)}     
-
+=begin
         before(:each) do
             allow(Submission).to receive(:find).with('1').and_return(submission)
         end
-
+=end
         describe 'retrieve_github_url' do
             context "when a submission record have already existed" do
                 it "should return corresponding owner, repo, and pull number of a submission record" do
@@ -33,7 +33,7 @@ describe GithubDataController do
                         allow(commit).to receive(:nil?).with().and_return(nil_or_not)
                         allow(GithubDatum).to receive(:create).with(submission, node.commit.oid, node.commit.committer.name, node.commit.additions, node.commit.deletions, node.commit.changed_files, DateTime.parse(node.commit.committed_date)).and_return(commit) if nil_or_not
                         allow(@commits).to receive(:push).with(commit).and_return()
-                    end
+                    end 
                     expect(@commits.length).to_not eq 0
                 end
            end
